@@ -1,1 +1,2 @@
-print("det virker")
+from sympy.logic.boolalg import to_cnf, Or
+
