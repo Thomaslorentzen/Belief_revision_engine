@@ -5,11 +5,26 @@ from operator import neg
 from sympy.logic.boolalg import to_cnf, And, Or, Equivalent
 from sortedcontainers import SortedList
 
+from entailment import entail
+from utils import associate
+
 
 class Beliefbase:
 
     def __init__(self):
         self.beliefs = SortedList(key=lambda b: neg(b.order))
+        self.sorting_queue = []
+
+    def add_sorting_queue(self, belief, order):
+        self.sorting_queue.append((belief, order))
+
+    def run_sorting_queue(self):
+        for belief, order in self.sorting_queue:
+            self.beliefs.remove(belief)
+            if order >= 0:
+                belief.order = order
+                self.beliefs.add(belief)
+        self.sorting_queue = []
 
     def expand_belief_base(self, formula):
         order = 1
@@ -23,6 +38,9 @@ class Beliefbase:
         for belief in self.beliefs:
             if belief.formula == formula:
                 self.beliefs.remove(belief)
+
+    def clear(self):
+        self.beliefs.clear()
 
 
 class Belief:
