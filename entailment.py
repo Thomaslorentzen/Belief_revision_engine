@@ -16,8 +16,7 @@ def entail(belief_base, formula):
         clauses_len = len(clauses)
         pairings = [
             (clauses[i], clauses[j])
-            for i in range(clauses_len)
-            for j in range(i + 1, clauses_len)
+            for i in range(clauses_len) for j in range(i + 1, clauses_len)
         ]
 
         for ci, cj in pairings:
@@ -25,8 +24,8 @@ def entail(belief_base, formula):
 
             if False in resolutions:
                 return True
-            #result.add(set(resolutions))
-            #udkommetneret alternativ fra git for at tjekke om det her er bedre end vores foreslåede løsning eller ej
+            # result.add(set(resolutions))
+            # udkommetneret alternativ fra git for at tjekke om det her er bedre end vores foreslåede løsning eller ej
             result = result.union(set(resolutions))
 
 
@@ -46,3 +45,4 @@ def resolve(ci, cj):
                 clauses.append(new_clause)
 
     return clauses
+

@@ -9,7 +9,7 @@ from entailment import entail
 from utils import associate
 
 
-class Beliefbase:
+class Belief_Base:
 
     def __init__(self):
         self.beliefs = SortedList(key=lambda b: neg(b.order))
@@ -26,13 +26,11 @@ class Beliefbase:
                 self.beliefs.add(belief)
         self.sorting_queue = []
 
-    def expand_belief_base(self, formula):
-        order = 1
-        formula_as_cnf = to_cnf(formula)
-        new_belief = Belief(formula_as_cnf, order)
+    def expand_belief_base(self, formula, order):
+        new_belief = Belief(formula, order)
         for belief in self.beliefs:
             belief.order += 1
-        self.beliefs.append(new_belief)
+        self.beliefs.add(new_belief)
 
     def remove_from_belief_base(self, formula):
         for belief in self.beliefs:
