@@ -36,13 +36,23 @@ def input_handler(belief_base):
                 belief_base.expand_belief_base(formula, 1)
             except SympifyError:
                 print("invalid formula")
-
+        elif action == "c":
+            belief_base.clear()
+        elif action == "con":
+            formula = input("Write a formula to delete")
+            belief_base.contraction(formula)
+        elif action == "t":
+            pass
         elif action == "q":
             input_running = false
             exit()
+        elif action == "h":
+            initial_message()
         elif action == "p":
             for belief in bb.beliefs:
                 print(belief.formula)
+        elif action == "e":
+            pass
         else:
             print("invalid user input. Press h for for help")
             print()
