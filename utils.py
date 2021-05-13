@@ -13,12 +13,12 @@ def unique(seq):
 
 # Returns clause as an "OR" clause
 def disjuncts(clause):
-    return dissociate("|", [clause])
+    return dissociate(Or, [clause])
 
 
 # Returns clause as an "AND" clause
 def conjuncts(clause):
-    return dissociate("&", [clause])
+    return dissociate(And, [clause])
 
 
 #

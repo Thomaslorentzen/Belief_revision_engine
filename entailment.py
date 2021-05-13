@@ -13,10 +13,14 @@ def entail(belief_base, formula):
     formula = to_cnf(formula)
     clauses = []
     #Convert the BB to CNF clauses
-    for belief in belief_base:
-        clauses.append(to_cnf(belief))
+    for belief in belief_base.beliefs:
+        clauses += conjuncts(belief.formula)
+
+    print(clauses)
+
     #Input the negated formula
-    clauses.append(to_cnf(-formula))
+    clauses += conjuncts(to_cnf(~formula))
+    #clauses.append(to_cnf(~formula))
 
     result = set()
 
@@ -33,7 +37,10 @@ def entail(belief_base, formula):
 
         # Special case if one clause is already False
             if False in resolutions:
-                return True
+                return True, cj
+
+            if True in resolutions:
+                complementary_clause = cj
             # result.add(set(resolutions))
             # udkommetneret alternativ fra git for at tjekke om det her er bedre end vores foreslåede løsning eller ej
             #Add from the set of resolutions to the set of results
@@ -43,6 +50,7 @@ def entail(belief_base, formula):
 #Helper method to check the literals of each clause. Return all clauses that can be obtained
 # by resolving clauses ci and cj
 #return a new disjunct list of clauses and
+#Empty sets will be returned with "false" boolean value
 def resolve(ci, cj):
     #
     disjunction_ci = disjuncts(ci)
@@ -52,7 +60,8 @@ def resolve(ci, cj):
 
     for literal_i in disjunction_ci:
         for literal_j in disjunction_cj:
-            if literal_i == -literal_j or -literal_i == literal_j:
+            print("literal_i: {}".format(literal_i) + "literal_j: {}".format(literal_j))
+            if literal_i == ~literal_j or ~literal_i == literal_j:
                 remaining = removeall(literal_i, disjunction_ci) + removeall(literal_j, disjunction_cj)
                 remaining = unique(remaining)
                 new_clause = associate(Or, remaining)

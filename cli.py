@@ -1,5 +1,6 @@
 import logging
 import argparse
+import entailment
 
 from sympy import *
 from belief_base import Belief_Base
@@ -20,6 +21,21 @@ def initial_message():
         q = quit
         """)
     print("select an action: ")
+
+def test():
+    test_bb = Belief_Base()
+    test_bb.expand_belief_base('p&q', 1)
+    test_bb.expand_belief_base('p|q', 1)
+    test_bb.expand_belief_base('p', 1)
+    print(sorted(test_bb.beliefs))
+    print("hej")
+    testt = entailment.entail(test_bb, "q")
+    print("hej igen")
+    print(testt)
+    #test_bb.append('p|q')
+    #test_bb.append("p")
+    #test_bb.append("q")
+    #print(entailment.entail(test_bb, "p"))
 
 
 def input_handler(belief_base):
@@ -42,7 +58,7 @@ def input_handler(belief_base):
             formula = input("Write a formula to delete")
             belief_base.contraction(formula)
         elif action == "t":
-            pass
+            test()
         elif action == "q":
             input_running = false
             exit()
