@@ -7,9 +7,16 @@ from belief_base import Belief_Base
 
 u_input = ">>>"
 
+#TODO:
+#Write user input instructions for the user
+#Ensure all methods convert to cnf
+#Expand database but notify user that no logical check will verify validity
+#
+#
+#
 
 def initial_message():
-    print("Welcome to belief abse revision!")
+    print("Welcome to belief base revision!")
     print(
         f"""Actions available:
         i = insert belief
@@ -22,20 +29,19 @@ def initial_message():
         """)
     print("select an action: ")
 
+
 def test():
     test_bb = Belief_Base()
+    #test_bb.expand_belief_base("p", 1)
     test_bb.expand_belief_base('p&q', 1)
-    test_bb.expand_belief_base('p|q', 1)
-    test_bb.expand_belief_base('p', 1)
-    print(sorted(test_bb.beliefs))
-    print("hej")
-    testt = entailment.entail(test_bb, "q")
-    print("hej igen")
-    print(testt)
-    #test_bb.append('p|q')
-    #test_bb.append("p")
-    #test_bb.append("q")
-    #print(entailment.entail(test_bb, "p"))
+    #test_bb.expand_belief_base('p|q', 1)
+    #test_bb.expand_belief_base("~p&~q", 3)
+
+    # new test
+    #test_bb.contraction("p")
+    #print("beliefs from test BB: {}".format(sorted(test_bb.beliefs)))
+    test_bb.revise("p", 10)
+    #test_bb.revise("~p")
 
 
 def input_handler(belief_base):
@@ -56,7 +62,7 @@ def input_handler(belief_base):
             belief_base.clear()
         elif action == "con":
             formula = input("Write a formula to delete")
-            belief_base.contraction(formula)
+            #belief_base.contraction(formula)
         elif action == "t":
             test()
         elif action == "q":
@@ -84,16 +90,4 @@ if __name__ == '__main__':
     bb = Belief_Base()
     input_handler(bb)
 
-# Available actions:
-# i: insert belief
-# p: print belief base
-# con: contraction
-# c: clear/reset belief base
-# e: entail
-# h: help
 
-# action = input(u_input)
-# action = action.lower()
-
-# if action == "r":
-#   form = to_cnf(form)
