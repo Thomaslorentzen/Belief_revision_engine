@@ -1,8 +1,6 @@
 from sympy.logic.boolalg import to_cnf, And, Or, Equivalent
-from sortedcontainers import SortedList
 
 from entailment import entail
-from utils import associate
 
 
 class Belief_Base:
