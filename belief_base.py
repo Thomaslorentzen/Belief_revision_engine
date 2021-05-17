@@ -65,7 +65,7 @@ class Belief_Base:
                             # Only remove if order is less than order of what we intend to remove
                             if belief in self.beliefs and belief.order < order:
                                 self.beliefs.remove(belief)
-                                print("beliefs efter sucesfuld contraction: {}".format(sorted(self.beliefs)))
+                                print("beliefs after succesful contraction: {}".format(sorted(self.beliefs)))
                                 contraction_result = True
                             elif belief in self.beliefs and belief.order >= order:
                                 print("Belief could not be contracted due to ordering. \n"
