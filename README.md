@@ -9,10 +9,10 @@ This is a python implementation for a belief revision engine.
 
 
 ### Project structure
-`belief_base.py`: the main class that implements the belief base and it's core functions such as expand, contration and revise.
-`cli.py`: The command-line interface for the user to perform operations on the belief base
-`entailment.py`: implementation of entailment algorithm for propositional logic
-`utils.py`: utility functions for operations on our structures or Sympy structures
+* `belief_base.py`: the main class that implements the belief base and it's core functions such as expand, contration and revise.
+* `cli.py`: The command-line interface for the user to perform operations on the belief base
+* `entailment.py`: implementation of entailment algorithm for propositional logic
+* `utils.py`: utility functions for operations on our structures or Sympy structures
 
 
 ### Installation
