@@ -23,7 +23,7 @@ def entail(belief_base, formula):
 
     # Input the negated formula
     clauses += conjuncts(~(to_cnf(formula)))
-    print("clauses i entailment: {}".format(clauses))
+    print("clauses in entailment: {}".format(clauses))
 
     result = set()
 
@@ -63,8 +63,6 @@ def resolve(ci, cj):
     for literal_i in disjunction_ci:
         for literal_j in disjunction_cj:
             if literal_i == ~literal_j or ~literal_i == literal_j:
-                #remaining_i = removeall(literal_i, disjunction_ci)
-                #remaining_j = removeall(literal_j, disjunction_cj)
                 remaining = removeall(literal_i, disjunction_ci) + removeall(literal_j, disjunction_cj)
                 remaining = unique(remaining)
                 new_clause = associate(Or, remaining)

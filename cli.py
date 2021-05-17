@@ -7,10 +7,11 @@ from belief_base import Belief_Base
 
 u_input = ">>>"
 
-#TODO:
-#Write user input instructions for the user
-#Ensure all methods convert to cnf
-#Expand database but notify user that no logical check will verify validity
+
+# TODO:
+# Write user input instructions for the user
+# Ensure all methods convert to cnf
+# Expand database but notify user that no logical check will verify validity
 #
 #
 #
@@ -19,29 +20,14 @@ def initial_message():
     print("Welcome to belief base revision!")
     print(
         f"""Actions available:
-        i = insert belief
         p = print base
-        con = contraction
+        r = revise
+        con = contract
         c = clear belief base
-        e = entail
         h = help
         q = quit
         """)
     print("select an action: ")
-
-
-def test():
-    test_bb = Belief_Base()
-    #test_bb.expand_belief_base("p", 1)
-    test_bb.expand_belief_base('p&q', 1)
-    #test_bb.expand_belief_base('p|q', 1)
-    #test_bb.expand_belief_base("~p&~q", 3)
-
-    # new test
-    #test_bb.contraction("p")
-    #print("beliefs from test BB: {}".format(sorted(test_bb.beliefs)))
-    test_bb.revise("p", 10)
-    #test_bb.revise("~p")
 
 
 def input_handler(belief_base):
@@ -51,20 +37,38 @@ def input_handler(belief_base):
 
     input_running = True
     while input_running:
-        if action == "i":
+        if action == "e":
             print("insert value(s) to add to your belief base")
             formula = input(u_input)
+            print("Give an order, or default will be chosen")
+            print("For default, press Enter")
+            # Future work: Limit inputs to integers
+            order = input(u_input)
+            if order == "":
+                order = 1
             try:
-                belief_base.expand_belief_base(formula, 1)
+                belief_base.expand_belief_base(formula, int(order))
             except SympifyError:
-                print("invalid formula")
+                print("Invalid formula!")
+            except ValueError:
+                print("Order has to be a number or blank for default to be chosen!")
+            print("added formula: {} with order: {} ".format(formula, order))
         elif action == "c":
             belief_base.clear()
         elif action == "con":
-            formula = input("Write a formula to delete")
-            #belief_base.contraction(formula)
-        elif action == "t":
-            test()
+            try:
+                formula = input("Write a formula to contract")
+                print("Belief base after contraction with formula {} ".format(formula))
+                order = input("write an order, or default will be chosen")
+                if order == "":
+                    order = 1
+                belief_base.contraction(formula, int(order))
+                print("Belief base after contraction with formula {} ".format(formula))
+                print(belief_base)
+            except SympifyError:
+                print("Invalid formula!")
+            except ValueError:
+                print("Order has to be a number or blank for default to be chosen!")
         elif action == "q":
             input_running = false
             exit()
@@ -72,9 +76,19 @@ def input_handler(belief_base):
             initial_message()
         elif action == "p":
             for belief in bb.beliefs:
-                print(belief.formula)
-        elif action == "e":
-            pass
+                print(belief.formula, " order: {}".format(belief.order))
+        elif action == "r":
+                formula = input("Write a formula to revise belief base with")
+                order = input("write an order, or default will be chosen")
+                if order == "":
+                    order = 1
+                try:
+                    belief_base.revise(formula, int(order))
+                    print("Revised belief base: {}".format(belief_base, order))
+                except SympifyError:
+                    print("Invalid formula!")
+                except ValueError:
+                    print("Order has to be a number or blank for default to be chosen!")
         else:
             print("invalid user input. Press h for for help")
             print()
@@ -89,5 +103,3 @@ if __name__ == '__main__':
 
     bb = Belief_Base()
     input_handler(bb)
-
-

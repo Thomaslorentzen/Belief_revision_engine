@@ -1,7 +1,6 @@
 from sympy.logic.boolalg import to_cnf, And, Or, Equivalent
 from sortedcontainers import SortedList
 
-
 from entailment import entail
 from utils import associate
 
@@ -9,10 +8,7 @@ from utils import associate
 class Belief_Base:
 
     def __init__(self):
-        #self.beliefs = SortedList(key=lambda b: neg(b.order))
         self.beliefs = []
-        self.sorting_queue = []
-
 
     def expand_belief_base(self, formula, order):
         formula_as_cnf = to_cnf(formula)
@@ -21,8 +17,8 @@ class Belief_Base:
             belief.order += 1
         self.beliefs.append(new_belief)
 
-    #Belief base expansion/revision - this method has to remove any belief that would imply the negation of a formula
-    #we are trying to add
+    # Belief base expansion/revision - this method has to remove any belief that would imply the negation of a formula
+    # we are trying to add
     def revise(self, formula, order):
         formula_as_cnf = to_cnf(formula)
         entail_results = entail(self, ~formula_as_cnf)
@@ -30,18 +26,16 @@ class Belief_Base:
             print("belief base: {} does entail formula {}".format(self.beliefs, ~formula_as_cnf))
             print("running contraction on formula: {}".format(~formula_as_cnf))
             print("running contraction on belief base: {}".format(self.beliefs))
-            #self.contraction(~formula_as_cnf, order)
             if self.contraction(~formula_as_cnf, order):
                 self.expand_belief_base(formula, order)
             else:
                 print("could not remove due to order")
-            #print("resultatet er: {}".format(self.contraction(~formula_as_cnf, order)))
-            print("Belief base after contraction ps jeg er sej: {}".format(self.beliefs))
+            print("Belief base after contraction: {}".format(self.beliefs))
         else:
             print("belief base: {} does not entail formula {} ".format(self.beliefs, ~formula_as_cnf))
             print("Adding belief formula: {}".format(formula_as_cnf))
             self.expand_belief_base(formula, order)
-        print("BB som det ser ud nu: {}".format(self.beliefs))
+        print("Belief base after revision: {}".format(self.beliefs))
 
     def remove_from_belief_base(self, formula, order):
         for belief in self.beliefs:
@@ -64,30 +58,24 @@ class Belief_Base:
                 self.beliefs.remove(belief)
         entail_result = entail(self, cnf_formula)
 
-        print("resultat: {}".format(entail_result[0]))
-        print("resultat: {}".format(entail_result[1]))
         for key, value in entail_result[1].items():
-            print("keys: {}, value: {}".format(key, value))
             key_holder = key
             for clause in value:
-                print("formula: {} og clause: {}".format(formula, clause))
                 if cnf_formula == clause:
                     for belief in self.beliefs:
                         if belief.formula == key_holder:
-                            print("formular: {}".format(belief.formula))
-                            print("belief: {}".format(belief))
-                            #Only remove if order is less than order of what we intend to remove
+                            # Only remove if order is less than order of what we intend to remove
                             if belief in self.beliefs and belief.order < order:
                                 self.beliefs.remove(belief)
                                 print("beliefs efter sucesfuld contraction: {}".format(sorted(self.beliefs)))
                                 contraction_result = True
                             elif belief in self.beliefs and belief.order >= order:
-                                print("Det fejler, fordi order er større. Order skal være MINDRE!")
-                                print("beliefs efter fejlet contraction: {}".format(sorted(self.beliefs)))
+                                print("Belief could not be contracted due to ordering. \n"
+                                      "beliefs after failed contraction: {}".format(sorted(self.beliefs)))
                                 contraction_result = False
                             else:
-                                print("Mislykket contraction, fordi belief ikke er i belief base!!")
-                                print("beliefs efter fejlet contraction: {}".format(sorted(self.beliefs)))
+                                print("Contraction failed. Could not find belief in belief base. \n"
+                                      "beliefs after failed contraction: {}".format(sorted(self.beliefs)))
                                 contraction_result = False
         return contraction_result
 
