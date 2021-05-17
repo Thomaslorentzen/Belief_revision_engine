@@ -30,6 +30,27 @@ $ python cli.py
 ### Admin command
 if the user would like to add a formula to the beliefbase without revising it they can write following command: 
 ```bash
-$ e
+e
 ```
 The command calls the expand_belief_base method without revision. 
+
+#### Exmaple for 'e' command 
+```bash
+Welcome to belief base revision!
+Actions available:
+        p = print base
+        r = revise
+        con = contract
+        c = clear belief base
+        h = help
+        q = quit
+
+select an action:
+>>>e
+insert value(s) to add to your belief base
+>>>a|b
+Give an order, or default will be chosen
+For default, press Enter
+>>>1
+added formula: a|b with order: 1
+```
