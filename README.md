@@ -3,9 +3,9 @@
 This is a python implementation for a belief revision engine. 
 
 ### Authors
-Niels George Vendelø
-Thomas Kristian Lorentzen
-Morten Allan Jensen
+* [Niels George Vendelø]
+* [Thomas Kristian Lorentzen]
+* [Morten Allan Jensen]
 
 
 ### Project structure
